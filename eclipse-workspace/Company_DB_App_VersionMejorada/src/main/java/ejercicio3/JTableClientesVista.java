@@ -1,17 +1,21 @@
 package ejercicio3;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 import tablas.Customer;
 
-import java.awt.BorderLayout;
-import java.util.List;
-
+/**
+ * Ventana que muestra un JTable con todos los clientes.
+ * 
+ * Desde aquí se puede seleccionar un cliente y pulsar el botón para modificarlo.
+ * El botón "Modificar cliente" se activa solo si se ha seleccionado una fila.
+ * 
+ * Esta ventana forma parte del ejercicio 3.
+ * 
+ * @author Antonio
+ */
 public class JTableClientesVista extends JFrame {
 
 	private JButton btnModificarCliente;
@@ -19,6 +23,10 @@ public class JTableClientesVista extends JFrame {
 	private List<Customer> customerList;
 	private CustomerTableModel ctm;
 
+	/**
+	 * Constructor que crea la vista, recibe la lista de clientes a mostrar
+	 * y configura la tabla y el botón.
+	 */
 	public JTableClientesVista(List<Customer> customerList) {
 		this.customerList = customerList;
 		ctm = new CustomerTableModel(customerList);
@@ -30,36 +38,34 @@ public class JTableClientesVista extends JFrame {
 		setLayout(new BorderLayout());
 		setVisible(true);
 
+		// Tabla con los clientes
 		tablaCustomers = new JTable(ctm);
 		JScrollPane barraScroll = new JScrollPane(tablaCustomers);
 
+		// Botón para modificar (empieza desactivado)
 		btnModificarCliente = new JButton("Modificar cliente");
-		btnModificarCliente.setEnabled(false); // Lo deshabilitamos al inicio
+		btnModificarCliente.setEnabled(false);
 
-		JPanel panelBoton = new JPanel(); // Un panel para poner el botón centrado
+		// Panel para colocar el botón
+		JPanel panelBoton = new JPanel();
 		panelBoton.add(btnModificarCliente);
 
+		// Solo se puede seleccionar una fila a la vez
 		tablaCustomers.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+		// Activar el botón solo si hay algo seleccionado
 		tablaCustomers.getSelectionModel().addListSelectionListener(e -> {
-
-			// Esta condición sirve para evitar que el evento se haga dos veces o
-			// mientras se está "ajustando" la selección.
-			// Lo encontré buscando cómo evitar que se ejecute innecesariamente cuando haces
-			// clic varias veces.
 			if (!e.getValueIsAdjusting()) {
-
-				// Si hay una fila seleccionada, habilito el botón "Modificar cliente".
-				// Si no hay ninguna fila seleccionada (por ejemplo si haces clic fuera de la
-				// tabla), lo desactivo.
 				btnModificarCliente.setEnabled(tablaCustomers.getSelectedRow() != -1);
 			}
 		});
 
+		// Añadir la tabla y el botón a la ventana
 		add(barraScroll, BorderLayout.CENTER);
 		add(panelBoton, BorderLayout.SOUTH);
-
 	}
+
+	// Getters para que el controlador pueda acceder al botón y a la tabla
 
 	public JButton getBtnModificarCliente() {
 		return btnModificarCliente;
@@ -68,5 +74,4 @@ public class JTableClientesVista extends JFrame {
 	public JTable getTablaCustomers() {
 		return tablaCustomers;
 	}
-
 }
