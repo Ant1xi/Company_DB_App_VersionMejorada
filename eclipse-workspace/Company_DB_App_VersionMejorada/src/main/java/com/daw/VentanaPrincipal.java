@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import ejercicio1.EmployeeControllerEjercicio1;
 import ejercicio2.AlmacenControllerEjercicio2;
+import ejercicio3.ModificarClienteControllerEjercicio3;
+import ejercicio5.EliminarEmpladoVista;
+import ejercicio5.EliminarEmpleadoControllerEjercicio5;
 import exceptions.EmployeeDataException;
 
 import java.awt.*;
@@ -14,6 +17,8 @@ import java.sql.SQLException;
 public class VentanaPrincipal extends JFrame {
 	EmployeeControllerEjercicio1 controlerEjercicio1 = new EmployeeControllerEjercicio1();
 	AlmacenControllerEjercicio2 controlerEjercicio2 = new AlmacenControllerEjercicio2();
+	ModificarClienteControllerEjercicio3 controlerEjercicio3 = new ModificarClienteControllerEjercicio3();
+	EliminarEmpleadoControllerEjercicio5 controllerEjercicio5 = new EliminarEmpleadoControllerEjercicio5();
 
 	public VentanaPrincipal() {
 		setTitle("Menú Principal");
@@ -47,8 +52,28 @@ public class VentanaPrincipal extends JFrame {
 
 			}
 		});
+		
+		JButton btnModificarCliente = new JButton("Modificar Cliente");
+		btnModificarCliente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controlerEjercicio2.cargaVistaAltaAlmacen();
+
+			}
+		});
+		
+		JButton btnEliminarEmpleado = new JButton("Eliminar empleado");
+		btnEliminarEmpleado.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controllerEjercicio5.cargaEliminarEmpleadoVista();
+			}
+		});
 
 		// Agregar los botones al menú principal
+		add(btnModificarCliente);
 		add(btnAltaEmpleado);
 		add(btnAltaAlmacen);
 
